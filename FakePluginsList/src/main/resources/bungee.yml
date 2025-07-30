@@ -1,0 +1,10 @@
+name: FakePluginsList
+main: com.fakeplugins.fakepluginslist.FakePluginsList
+version: 1.0
+author: 5H11P
+description: 显示自定义的插件列表
+
+permissions:
+  fakepluginslist.reload:
+    description: 允许重新加载插件配置
+    default: op
