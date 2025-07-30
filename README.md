@@ -72,3 +72,50 @@ mvn clean package
 ```
 
 编译后的 JAR 文件将位于 `target` 文件夹中。
+
+
+# FakePluginsList
+
+A simple BungeeCord plugin for displaying custom plugin lists with configurable output.
+
+## Features ✨
+
+- Intercepts `/plugins` and related commands
+- Fully customizable plugin list display
+- Color-coded output (success/failed plugins)
+- Toggleable failed plugins display
+- Plugin count statistics
+- Simple YAML configuration
+- Permission-based reload command
+
+## Configuration ⚙️
+
+`config.yml` example:
+```yaml
+# Command triggers (without slash)
+commands:
+  - "plugins"
+  - "pl"
+  - "bukkit:plugins"
+  - "bukkit:pl"
+
+# Toggle failed plugins visibility
+show_failed_plugins: true
+
+# Display message formatting
+# Available placeholders:
+# %count% - Total plugins
+# %success_count% - Successful plugins
+# %failed_count% - Failed plugins  
+# %plugins% - Plugin list
+message: "&fPlugins (&a%success_count%&f/&c%failed_count%&f): %plugins%"
+
+# Plugin lists
+success_plugins:
+  - "Essentials"
+  - "WorldEdit"
+  - "WorldGuard"
+
+failed_plugins:
+  - "BrokenPlugin"
+  - "OutdatedAddon"
