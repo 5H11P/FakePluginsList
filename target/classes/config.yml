@@ -9,6 +9,9 @@ commands:
 # 是否显示加载失败的插件 (true/false)
 show_failed_plugins: true
 
+# 是否随机排序插件列表 (true/false)
+random_order: true
+
 # 显示消息 (%count% 会被替换为插件总数量, %plugins% 会被替换为插件列表)
 # %success_count% 会被替换为成功加载的插件数量
 # %failed_count% 会被替换为加载失败的插件数量

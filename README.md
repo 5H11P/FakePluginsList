@@ -15,34 +15,35 @@
 ## 配置
 
 ```yaml
+# FakePluginsList 配置文件
+
 # 触发命令列表 (不需要加/)
 commands:
   - "plugins"
-  - "pl"
   - "bukkit:plugins"
   - "bukkit:pl"
-  # 可以添加更多自定义命令
 
-# 是否显示加载失败的插件 (true: 显示, false: 不显示)
+# 是否显示加载失败的插件 (true/false)
 show_failed_plugins: true
+
+# 是否随机排序插件列表 (true/false)
+random_order: true
 
 # 显示消息 (%count% 会被替换为插件总数量, %plugins% 会被替换为插件列表)
 # %success_count% 会被替换为成功加载的插件数量
 # %failed_count% 会被替换为加载失败的插件数量
-message: "&fPlugins (&a%success_count%&f/&c%failed_count%&f): %plugins%"
+message: "&fPlugins (&f%count%&f): %plugins%"
 
+# 显示的插件列表
 # 成功加载的插件列表 (显示为绿色 &a)
 success_plugins:
-  - "Essentials"
-  - "WorldEdit"
-  - "WorldGuard"
-  # 添加更多成功加载的插件...
+  - "Plugin1"
+  - "Plugin2"
 
 # 加载失败的插件列表 (显示为红色 &c)
 failed_plugins:
   - "FailedPlugin1"
-  - "BrokenPlugin"
-  # 添加更多加载失败的插件...
+  - "FailedPlugin2"
 ```
 
 ## 命令
@@ -72,50 +73,3 @@ mvn clean package
 ```
 
 编译后的 JAR 文件将位于 `target` 文件夹中。
-
-
-# FakePluginsList
-
-A simple BungeeCord plugin for displaying custom plugin lists with configurable output.
-
-## Features ✨
-
-- Intercepts `/plugins` and related commands
-- Fully customizable plugin list display
-- Color-coded output (success/failed plugins)
-- Toggleable failed plugins display
-- Plugin count statistics
-- Simple YAML configuration
-- Permission-based reload command
-
-## Configuration ⚙️
-
-`config.yml` example:
-```yaml
-# Command triggers (without slash)
-commands:
-  - "plugins"
-  - "pl"
-  - "bukkit:plugins"
-  - "bukkit:pl"
-
-# Toggle failed plugins visibility
-show_failed_plugins: true
-
-# Display message formatting
-# Available placeholders:
-# %count% - Total plugins
-# %success_count% - Successful plugins
-# %failed_count% - Failed plugins  
-# %plugins% - Plugin list
-message: "&fPlugins (&a%success_count%&f/&c%failed_count%&f): %plugins%"
-
-# Plugin lists
-success_plugins:
-  - "Essentials"
-  - "WorldEdit"
-  - "WorldGuard"
-
-failed_plugins:
-  - "BrokenPlugin"
-  - "OutdatedAddon"

@@ -18,12 +18,24 @@ import java.util.List;
 
 public class FakePluginsList extends Plugin {
 
+    // 用于存储插件信息的内部类
+    private static class PluginInfo {
+        public final String name;
+        public final ChatColor color;
+        
+        public PluginInfo(String name, ChatColor color) {
+            this.name = name;
+            this.color = color;
+        }
+    }
+
     private Configuration config;
     private List<String> successPluginsList;
     private List<String> failedPluginsList;
     private List<String> commands;
     private String message;
     private boolean showFailedPlugins;
+    private boolean randomOrder;
 
     @Override
     public void onEnable() {
@@ -71,6 +83,7 @@ public class FakePluginsList extends Plugin {
         successPluginsList = config.getStringList("success_plugins");
         failedPluginsList = config.getStringList("failed_plugins");
         showFailedPlugins = config.getBoolean("show_failed_plugins", true); // 默认显示失败插件
+        randomOrder = config.getBoolean("random_order", true); // 默认随机排序
     }
 
     public void reloadConfig() {
@@ -126,22 +139,32 @@ public class FakePluginsList extends Plugin {
 
             StringBuilder pluginsString = new StringBuilder();
             
+            // 创建一个合并的插件列表，用于可能的随机排序
+            List<PluginInfo> allPlugins = new java.util.ArrayList<>();
+            
             // 添加成功加载的插件（绿色）
-            for (int i = 0; i < successPluginsList.size(); i++) {
-                pluginsString.append(ChatColor.GREEN).append(successPluginsList.get(i));
-                // 如果不是最后一个插件，并且还有失败的插件且需要显示，添加逗号
-                if (i < successPluginsList.size() - 1 || (showFailedPlugins && !failedPluginsList.isEmpty())) {
-                    pluginsString.append(ChatColor.WHITE).append(", ");
-                }
+            for (String plugin : successPluginsList) {
+                allPlugins.add(new PluginInfo(plugin, ChatColor.GREEN));
             }
             
             // 如果配置为显示失败插件，则添加失败的插件（红色）
             if (showFailedPlugins) {
-                for (int i = 0; i < failedPluginsList.size(); i++) {
-                    pluginsString.append(ChatColor.RED).append(failedPluginsList.get(i));
-                    if (i < failedPluginsList.size() - 1) {
-                        pluginsString.append(ChatColor.WHITE).append(", ");
-                    }
+                for (String plugin : failedPluginsList) {
+                    allPlugins.add(new PluginInfo(plugin, ChatColor.RED));
+                }
+            }
+            
+            // 如果配置为随机排序，则随机打乱插件列表顺序
+            if (randomOrder) {
+                java.util.Collections.shuffle(allPlugins);
+            }
+            
+            // 构建显示字符串
+            for (int i = 0; i < allPlugins.size(); i++) {
+                PluginInfo info = allPlugins.get(i);
+                pluginsString.append(info.color).append(info.name);
+                if (i < allPlugins.size() - 1) {
+                    pluginsString.append(ChatColor.WHITE).append(", ");
                 }
             }
 
